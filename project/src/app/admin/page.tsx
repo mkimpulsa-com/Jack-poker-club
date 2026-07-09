@@ -59,7 +59,7 @@ type UserProfile = {
     hasSchoolAccess?: boolean;
 };
 
-const ADMIN_EMAILS = ['jackskkclub@gmail.com', 'guillepasqui@gmail.com'];
+const ADMIN_EMAILS = ['jackskkclub@gmail.com', 'guillepasqui@gmail.com', 'robertemprende000@gmail.com'];
 
 function UserManagement() {
     const { firestore } = useFirebase();
