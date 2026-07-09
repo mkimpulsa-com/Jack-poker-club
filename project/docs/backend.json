@@ -1,0 +1,466 @@
+{
+  "entities": {
+    "Tournament": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Tournament",
+      "type": "object",
+      "description": "Represents a poker tournament.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the tournament."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the tournament."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Date and time when the tournament starts.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Date and time when the tournament ends.",
+          "format": "date-time"
+        },
+        "location": {
+          "type": "string",
+          "description": "Location where the tournament is held."
+        },
+        "buyIn": {
+          "type": "number",
+          "description": "The buy-in amount for the tournament."
+        },
+        "prizePool": {
+          "type": "number",
+          "description": "The total prize pool for the tournament."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the tournament."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "startDate",
+        "endDate",
+        "location",
+        "buyIn",
+        "prizePool",
+        "description"
+      ]
+    },
+    "Club": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Club",
+      "type": "object",
+      "description": "Represents a poker club.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the club."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the club."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the club and its activities."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the club."
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Contact email address for the club.",
+          "format": "email"
+        },
+        "website": {
+          "type": "string",
+          "description": "Website URL for the club.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "location",
+        "contactEmail",
+        "website"
+      ]
+    },
+    "CommunityPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CommunityPost",
+      "type": "object",
+      "description": "Represents a post in the community forum.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the post."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N CommunityPost)"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Denormalized author's display name for easy display."
+        },
+        "authorPhotoUrl": {
+          "type": "string",
+          "description": "Denormalized URL of the author's profile picture.",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the post."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Date and time when the post was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "authorId",
+        "authorName",
+        "title",
+        "content",
+        "createdAt"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the Ace Academy platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "profilePictureUrl": {
+          "type": "string",
+          "description": "The URL of the user's profile picture.",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Date and time when the user registered.",
+          "format": "date-time"
+        },
+        "playerId": {
+          "type": "string",
+          "description": "The user's player ID for the poker platform."
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "description": "The user's WhatsApp contact number."
+        },
+        "hasSchoolAccess": {
+          "type": "boolean",
+          "description": "Grants user access to the School section (AI Coach, Preflop Charts).",
+          "default": false
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName",
+        "createdAt",
+        "playerId",
+        "whatsappNumber"
+      ]
+    },
+    "CurriculumModule": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CurriculumModule",
+      "type": "object",
+      "description": "Represents a module within the poker school's curriculum.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the curriculum module."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the curriculum module."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the module covers."
+        },
+        "content": {
+          "type": "string",
+          "description": "The actual content of the curriculum module (e.g., text, video URL)."
+        },
+        "order": {
+          "type": "number",
+          "description": "The order of this module within the overall curriculum."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "content",
+        "order"
+      ]
+    },
+    "Tag": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Tag",
+      "type": "object",
+      "description": "Represents a tag for categorizing community posts.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the tag."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the tag."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Announcement": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Announcement",
+      "type": "object",
+      "description": "Represents a global announcement displayed on the homepage.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the announcement (e.g., 'latest')."
+        },
+        "content": {
+          "type": "string",
+          "description": "The text content of the announcement."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Date and time when the announcement was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "content"
+      ]
+    },
+    "Session": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Session",
+      "description": "Represents a poker session for a user.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the session."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who played this session."
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the session took place."
+        },
+        "buyIn": {
+          "type": "number",
+          "description": "The total buy-in amount for the session."
+        },
+        "cashOut": {
+          "type": "number",
+          "description": "The final cash-out amount from the session."
+        },
+        "profit": {
+          "type": "number",
+          "description": "The net profit or loss from the session (cashOut - buyIn)."
+        },
+        "durationInMinutes": {
+          "type": "number",
+          "description": "The duration of the session in minutes."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location where the session was played (e.g., 'Online', 'Casino Name')."
+        }
+      },
+      "required": [
+        "userId",
+        "date",
+        "buyIn",
+        "cashOut",
+        "profit",
+        "durationInMinutes",
+        "location"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Path-based ownership ensures only the user can access their data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        },
+        "subcollections": [
+          {
+            "path": "/sessions/{sessionId}",
+            "definition": {
+              "entityName": "Session",
+              "schema": {
+                "$ref": "#/backend/entities/Session"
+              },
+              "description": "Stores an individual user's poker sessions. Path-based ownership ensures only the user can access their own session data.",
+              "params": [
+                {
+                  "name": "sessionId",
+                  "description": "The unique identifier for the poker session."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "path": "/hand-analysis-posts/{postId}",
+        "definition": {
+          "entityName": "CommunityPost",
+          "schema": {
+            "$ref": "#/backend/entities/CommunityPost"
+          },
+          "description": "Stores hand analysis posts. Includes the denormalized 'authorId' field for authorization independence.",
+          "params": [
+            {
+              "name": "postId",
+              "description": "The unique identifier for the hand analysis post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tags/{tagId}",
+        "definition": {
+          "entityName": "Tag",
+          "schema": {
+            "$ref": "#/backend/entities/Tag"
+          },
+          "description": "Stores tags for categorizing community posts. Accessible to all users.",
+          "params": [
+            {
+              "name": "tagId",
+              "description": "The unique identifier for the tag."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/curriculum_modules/{moduleId}",
+        "definition": {
+          "entityName": "CurriculumModule",
+          "schema": {
+            "$ref": "#/backend/entities/CurriculumModule"
+          },
+          "description": "Stores curriculum modules for the poker school.",
+          "params": [
+            {
+              "name": "moduleId",
+              "description": "The unique identifier for the curriculum module."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/clubs/{clubId}",
+        "definition": {
+          "entityName": "Club",
+          "schema": {
+            "$ref": "#/backend/entities/Club"
+          },
+          "description": "Stores information about poker clubs.",
+          "params": [
+            {
+              "name": "clubId",
+              "description": "The unique identifier for the club."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/tournaments/{tournamentId}",
+        "definition": {
+          "entityName": "Tournament",
+          "schema": {
+            "$ref": "#/backend/entities/Tournament"
+          },
+          "description": "Stores information about poker tournaments.",
+          "params": [
+            {
+              "name": "tournamentId",
+              "description": "The unique identifier for the tournament."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/announcements/{announcementId}",
+        "definition": {
+          "entityName": "Announcement",
+          "schema": {
+            "$ref": "#/backend/entities/Announcement"
+          },
+          "description": "Stores global announcements for the homepage. Publicly readable, but only writable by an admin.",
+          "params": [
+            {
+              "name": "announcementId",
+              "description": "The unique identifier for the announcement (e.g., 'latest')."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This Firestore structure prioritizes authorization independence and QAPs. User data is stored under `/users/{userId}`, ensuring path-based ownership. Sessions are a subcollection of users, inheriting ownership. Community posts are segregated under `/hand-analysis-posts/{postId}` with the `authorId` field for ownership reference. This avoids hierarchical authorization dependencies. Tags are stored globally under `/tags/{tagId}`. Clubs and Tournaments are also stored globally. The structure enables efficient `list` operations with simple security rules, as each collection has a homogeneous security posture."
+  }
+}

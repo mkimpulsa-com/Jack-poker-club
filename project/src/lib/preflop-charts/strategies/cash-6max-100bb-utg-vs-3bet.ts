@@ -1,0 +1,45 @@
+import type { PreflopStrategy } from '../types';
+
+export const cash6max100bbUtgVs3bet: PreflopStrategy = {
+  id: 'cash-6max-100bb-utg-vs-3bet',
+  title: 'Cash 6-max 100bb UTG vs 3bet',
+  meta: {
+    format: 'CASH',
+    players: 6,
+    stackBB: 100,
+    position: 'UTG',
+    action: 'vs-3bet',
+    strategicNote: "Al abrir desde UTG y enfrentar un 3-bet, estamos fuera de posición contra la mayoría de la mesa. La estrategia se polariza: hacemos 4-bet/all-in por valor con las manos más fuertes (AA, KK, AKs), pagamos con manos que tienen buen potencial post-flop (pares medios, suited broadways) y foldeamos el resto para evitar situaciones dominadas.",
+  },
+  stats: {
+    raise: 2.4,
+    call: 2.9,
+    fold: 12.3,
+    allin: 1.1,
+  },
+  range: {
+    "AA":  { "allin": 0,    "raise": 100,    "call": 0,     "fold": 0 },
+    "AKs": { "allin": 26.5, "raise": 73.5,   "call": 0,     "fold": 0 },
+    "AQs": { "allin": 0,    "raise": 42.5,   "call": 57.5,  "fold": 0 },
+    "AJs": { "allin": 0,    "raise": 51.5,   "call": 48.5,  "fold": 0 },
+    "ATs": { "allin": 0,    "raise": 25,     "call": 59.5,  "fold": 15.5 },
+    "A4s": { "allin": 0,    "raise": 0,      "call": 31,    "fold": 69 },
+    "A3s": { "allin": 0,    "raise": 0,      "call": 14.5,  "fold": 85.5 },
+    "AKo": { "allin": 85.5, "raise": 7.5,    "call": 7,     "fold": 0 },
+    "KK":  { "allin": 63,   "raise": 37,     "call": 0,     "fold": 0 },
+    "KQs": { "allin": 0,    "raise": 50,     "call": 50,    "fold": 0 },
+    "KJs": { "allin": 0,    "raise": 33,     "call": 67,    "fold": 0 },
+    "KTs": { "allin": 0,    "raise": 27.5,   "call": 44,    "fold": 28.5 },
+    "AQo": { "allin": 0,    "raise": 23.65,  "call": 11.62, "fold": 64.73 },
+    "QQ":  { "allin": 2.5,  "raise": 59.96,  "call": 37.54,"fold": 0 },
+    "QJs": { "allin": 0,    "raise": 0,      "call": 24.5,  "fold": 75.5 },
+    "JJ":  { "allin": 0,    "raise": 50.5,   "call": 49.5,  "fold": 0 },
+    "JTs": { "allin": 0,    "raise": 0,      "call": 48.5,  "fold": 51.5 },
+    "J9s": { "allin": 0,    "raise": 0,      "call": 2,     "fold": 98 },
+    "99":  { "allin": 0,    "raise": 16.5,   "call": 47,    "fold": 36.5 },
+    "88":  { "allin": 0,    "raise": 4.48,   "call": 41.79,"fold": 53.73 },
+    "77":  { "allin": 0,    "raise": 0,      "call": 44.5,  "fold": 55.5 },
+    "66":  { "allin": 0,    "raise": 0,      "call": 41,    "fold": 59 },
+    "55":  { "allin": 0,    "raise": 0,      "call": 33.98,"fold": 66.02 }
+  },
+};

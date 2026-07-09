@@ -1,0 +1,50 @@
+import type { PreflopStrategy } from '../types';
+
+export const cash6max40bbMpVsOpen: PreflopStrategy = {
+  id: 'cash-6max-40bb-mp-vs-open',
+  title: 'Cash 6-max 40bb MP vs Open 2.5x',
+  meta: {
+    format: 'CASH',
+    players: 6,
+    stackBB: 40,
+    position: 'MP',
+    action: 'vs-open',
+    strategicNote: 'Con 40bb desde MP contra una apertura de 2.5x de UTG, la estrategia es más ajustada. Se prioriza el 3-bet por valor y el call con manos que tienen buen potencial postflop, considerando el stack más corto que reduce las implied odds.',
+  },
+  stats: {
+    raise: 8.1,
+    call: 0.8,
+    fold: 91.1,
+    allin: 0.0,
+  },
+  range: {
+    "AA": { "allin": 0, "raise": 100, "call": 0, "fold": 0 },
+    "AKs": { "allin": 0, "raise": 100, "call": 0, "fold": 0 },
+    "AQs": { "allin": 0, "raise": 79.5, "call": 20.5, "fold": 0 },
+    "AJs": { "allin": 0, "raise": 78.5, "call": 21.5, "fold": 0 },
+    "ATs": { "allin": 0, "raise": 88.5, "call": 11.5, "fold": 0 },
+    "A9s": { "allin": 0, "raise": 98.5, "call": 1.5, "fold": 0 },
+    "A5s": { "allin": 0, "raise": 46.5, "call": 7, "fold": 46.5 },
+    "AKo": { "allin": 0, "raise": 93.5, "call": 6.5, "fold": 0 },
+    "KK": { "allin": 0, "raise": 100, "call": 0, "fold": 0 },
+    "KQs": { "allin": 0, "raise": 80, "call": 20, "fold": 0 },
+    "KJs": { "allin": 0, "raise": 94, "call": 6, "fold": 0 },
+    "KTs": { "allin": 0, "raise": 92.5, "call": 7.5, "fold": 0 },
+    "K9s": { "allin": 0, "raise": 13, "call": 0, "fold": 87 },
+    "AQo": { "allin": 0, "raise": 97.5, "call": 2.5, "fold": 0 },
+    "KQo": { "allin": 0, "raise": 21, "call": 0, "fold": 79 },
+    "QQ": { "allin": 0, "raise": 100, "call": 0, "fold": 0 },
+    "QJs": { "allin": 0, "raise": 96.5, "call": 3.5, "fold": 0 },
+    "QTs": { "allin": 0, "raise": 11.0553,"call": 12.0603,"fold": 76.8844 },
+    "AJo": { "allin": 0, "raise": 20, "call": 0, "fold": 80 },
+    "KJo": { "allin": 0, "raise": 6, "call": 0, "fold": 94 },
+    "JJ": { "allin": 0, "raise": 89, "call": 11, "fold": 0 },
+    "JTs": { "allin": 0, "raise": 66.5, "call": 12.5, "fold": 21 },
+    "TT": { "allin": 0, "raise": 90, "call": 10, "fold": 0 },
+    "99": { "allin": 0, "raise": 88, "call": 12, "fold": 0 },
+    "88": { "allin": 0, "raise": 86, "call": 14, "fold": 0 },
+    "77": { "allin": 0, "raise": 31, "call": 11, "fold": 58 },
+    "66": { "allin": 0, "raise": 7, "call": 7.5, "fold": 85.5 },
+    "55": { "allin": 0, "raise": 0, "call": 4, "fold": 96 }
+  }
+};

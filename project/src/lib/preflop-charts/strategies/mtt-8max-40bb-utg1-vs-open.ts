@@ -1,0 +1,53 @@
+import type { PreflopStrategy } from '../types';
+
+export const mtt8max40bbUtg1VsOpen: PreflopStrategy = {
+  id: 'mtt-8max-40bb-utg1-vs-open',
+  title: 'MTT 8-max 40bb UTG+1 vs UTG Open',
+  meta: {
+    format: 'MTT',
+    players: 8,
+    stackBB: 40,
+    position: 'UTG+1',
+    action: 'vs-open',
+    strategicNote: 'Desde UTG+1 con 40bb, al enfrentar una apertura de UTG, la estrategia es una mezcla de agresión y defensa. Con un stack intermedio, se hacen 3-bets por valor y como semi-bluff, y se paga con manos que tienen buen potencial para jugar post-flop, aunque con más cautela que con stacks profundos debido al SPR más bajo.',
+  },
+  stats: {
+    raise: 8.4,
+    call: 8.1,
+    fold: 83.5,
+    allin: 0.0,
+  },
+  range: {
+    "AA":  { "raise": 100, "call": 0, "fold": 0 },
+    "AKs": { "raise": 100, "call": 0, "fold": 0 },
+    "AQs": { "call": 100 },
+    "AJs": { "call": 100 },
+    "ATs": { "raise": 39,  "call": 61,  "fold": 0 },
+    "A9s": { "raise": 63,  "call": 37,  "fold": 0 },
+    "A8s": { "raise": 8.5, "fold": 91.5 },
+    "A5s": { "call": 40.5, "fold": 59.5 },
+    "AKo": { "raise": 57.5, "call": 42.5, "fold": 0 },
+    "KK":  { "raise": 92.5, "call": 7.5,  "fold": 0 },
+    "KQs": { "call": 100 },
+    "KJs": { "raise": 52,  "call": 48,  "fold": 0 },
+    "KTs": { "raise": 73,  "call": 27,  "fold": 0 },
+    "K9s": { "raise": 37.5, "call": 13.5, "fold": 49 },
+    "AQo": { "raise": 75.5, "call": 24.5, "fold": 0 },
+    "KQo": { "raise": 26.5, "call": 9,    "fold": 64.5 },
+    "QQ":  { "raise": 68,  "call": 32,  "fold": 0 },
+    "QJs": { "raise": 61.5, "call": 38.5, "fold": 0 },
+    "QTs": { "raise": 9.5, "call": 65,  "fold": 25.5 },
+    "AJo": { "raise": 51.5, "call": 5,   "fold": 43.5 },
+    "JJ":  { "raise": 41.5, "call": 58.5, "fold": 0 },
+    "JTs": { "raise": 24,  "call": 76,  "fold": 0 },
+    "TT":  { "raise": 52.5, "call": 47.5, "fold": 0 },
+    "T9s": { "call": 10.5, "fold": 89.5 },
+    "99":  { "raise": 39,  "call": 61,  "fold": 0 },
+    "88":  { "raise": 22,  "call": 78,  "fold": 0 },
+    "77":  { "raise": 10,  "call": 79,  "fold": 11 },
+    "66":  { "call": 49,  "fold": 51 },
+    "55":  { "call": 29,  "fold": 71 },
+    "44":  { "call": 17,  "fold": 83 },
+    "33":  { "call": 8.5, "fold": 91.5 }
+  }
+};

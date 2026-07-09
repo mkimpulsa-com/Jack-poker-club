@@ -1,0 +1,170 @@
+/**
+ * Core Philosophy: This ruleset implements a hybrid security model designed for a community platform.
+ * It strictly protects private user data while allowing for public, user-generated content and
+ * globally shared, read-only information.
+ *
+ * Data Structure:
+ * - /users/{userId}: Private user profiles, with a strict ownership model where only the authenticated
+ *   user can access their own document. Admins are allowed to list all users for moderation and manage access.
+ * - /users/{userId}/sessions/{sessionId}: Private user poker sessions. Only the user can access their own sessions.
+ * - /hand-analysis-posts/{postId}: Publicly readable posts. Writes are restricted to the original author,
+ *   enforced via a denormalized `authorId` field on each post. Admins can delete any post.
+ * - /tags, /curriculum_modules, /clubs, /tournaments: Top-level collections that store public,
+ *   globally-managed data. They are read-only for all clients to ensure data integrity.
+ *
+ * Key Security Decisions:
+ * - User Isolation: A user can only access their own data tree under `/users/{userId}`. Listing all users
+ *   is explicitly disallowed for non-admins to protect user privacy.
+ * - Admin Privileges: Admin users (identified by email) have elevated privileges, including listing users,
+ *   deleting any post, and managing user access flags.
+ * - Public Content with Ownership: The `/hand-analysis-posts` collection is world-readable, but all write
+ *   operations (create, update, delete) are strictly controlled, ensuring only the original author
+ *   can modify their content, with admins having moderation (delete) rights.
+ * - Read-Only Global Data: Collections like `tags`, `clubs`, and `tournaments` are treated as
+ *   globally managed content. To prevent unauthorized modification, all client-side write operations
+ * are denied. This data should be managed through a trusted backend environment (e.g., Admin SDK).
+ *
+ * Denormalization for Authorization:
+ * The security model relies on denormalization for performance and security. The `CommunityPost` documents
+ * contain an `authorId` field. This allows rules to verify ownership directly on the document without
+ * performing costly and slow `get()` operations on other collections.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for reusable logic
+    function getAdminEmails() {
+      return ['jackskkclub@gmail.com', 'guillepasqui@gmail.com'];
+    }
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email in getAdminEmails();
+    }
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Checks if the requesting user's UID matches the document's owner ID
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    /**
+     * @description Announcements are public to read, but only the admin can write them.
+     * @path /announcements/{announcementId}
+     * @allow (read) Any user, signed-in or anonymous, can read and list announcements.
+     * @allow (write) Only admin users can create, update, or delete announcements.
+     * @deny (write) Any other user cannot write to announcements.
+     * @principle Secures globally managed data by making it read-only for most users.
+     */
+    match /announcements/{announcementId} {
+      allow get: if true;
+      allow list: if true;
+      allow write: if isAdmin();
+    }
+
+    /**
+     * @description User can read/write their own profile. Admin can list and write any profile.
+     * @path /users/{userId}
+     * @allow (get) A user can read their own document, or an admin can read any document.
+     * @allow (list) Only admins can list the /users collection.
+     * @allow (write) A user can create or update their own profile. Admins can update any profile.
+     * @allow (delete) A user can delete their own profile, or an admin can delete any profile.
+     * @principle Restricts access to a user's own data tree, with admin oversight.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+      allow delete: if isOwner(userId) || isAdmin();
+
+      /**
+       * @description A user can only manage their own poker sessions.
+       * @path /users/{userId}/sessions/{sessionId}
+       * @allow (read, write) The owner of the user document can do anything with their own sessions.
+       */
+      match /sessions/{sessionId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    /**
+     * @description Hand analysis posts are public to read, but only the author can write them. Admins can moderate by deleting.
+     * @path /hand-analysis-posts/{postId}
+     * @allow (read) Any user, signed-in or anonymous, can get or list posts.
+     * @allow (create) An authenticated user can create a post for themselves, initializing commentCount to 0.
+     * @allow (update) The author of a post can update it. Any authenticated user can increment the comment count.
+     * @allow (delete) The author of a post or an admin can delete it.
+     * @principle Implements a "Public Read with Owner-Only Writes" pattern, with admin moderation.
+     */
+    match /hand-analysis-posts/{postId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isSignedIn() && resource != null && resource.data.authorId == request.auth.uid;
+      allow delete: if isSignedIn() && resource != null && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+
+    /**
+     * @description Tags are public, globally-managed data that are read-only for clients.
+     * @path /tags/{tagId}
+     * @allow (read) Any user, signed-in or anonymous, can read and list tags.
+     * @deny (write) No client application can create, update, or delete tags.
+     * @principle Secures globally managed data by making it read-only. Writes must be performed by a trusted server environment.
+     */
+    match /tags/{tagId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Curriculum modules are public educational content that is read-only for clients.
+     * @path /curriculum_modules/{moduleId}
+     * @allow (read) Any user, signed-in or anonymous, can read and list curriculum modules.
+     * @deny (write) No client application can create, update, or delete curriculum modules.
+     * @principle Secures globally managed data by making it read-only. Writes must be performed by a trusted server environment.
+     */
+    match /curriculum_modules/{moduleId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Club information is public, globally-managed data that is read-only for clients.
+     * @path /clubs/{clubId}
+     * @allow (read) Any user, signed-in or anonymous, can read and list clubs.
+     * @deny (write) No client application can create, update, or delete clubs.
+     * @principle Secures globally managed data by making it read-only. Writes must be performed by a trusted server environment.
+     */
+    match /clubs/{clubId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Tournament information is public, globally-managed data that is read-only for clients.
+     * @path /tournaments/{tournamentId}
+     * @allow (read) Any user, signed-in or anonymous, can read and list tournaments.
+     * @deny (write) No client application can create, update, or delete tournaments.
+     * @principle Secures globally managed data by making it read-only. Writes must be performed by a trusted server environment.
+     */
+    match /tournaments/{tournamentId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}

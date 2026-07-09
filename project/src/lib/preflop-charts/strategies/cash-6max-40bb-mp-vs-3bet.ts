@@ -1,0 +1,52 @@
+import type { PreflopStrategy } from '../types';
+
+export const cash6max40bbMpVs3bet: PreflopStrategy = {
+  id: 'cash-6max-40bb-mp-vs-3bet',
+  title: 'Cash 6-max 40bb MP vs 3bet',
+  meta: {
+    format: 'CASH',
+    players: 6,
+    stackBB: 40,
+    position: 'MP',
+    action: 'vs-3bet',
+    strategicNote: 'Con 40bb desde MP, al enfrentar un 3-bet, la estrategia es una mezcla de agresión y defensa. Se va all-in o se hace 4-bet con un rango polarizado que incluye manos premium por valor y algunos bluffs. Se paga con manos que tienen buena jugabilidad y pot odds. El resto del rango de apertura se retira para evitar situaciones complicadas con un stack comprometido.',
+  },
+  stats: {
+    raise: 10.5,
+    call: 21.0,
+    fold: 50.9,
+    allin: 17.6,
+  },
+  range: {
+    "AA":  { "allin": 0,      "raise": 100,     "call": 0,      "fold": 0 },
+    "AKs": { "allin": 70,     "raise": 30,      "call": 0,      "fold": 0 },
+    "AQs": { "allin": 16,     "raise": 30,      "call": 54,     "fold": 0 },
+    "AJs": { "allin": 0,      "raise": 0,       "call": 100,    "fold": 0 },
+    "ATs": { "allin": 0,      "raise": 38,      "call": 62,     "fold": 0 },
+    "A9s": { "allin": 0,      "raise": 13.0653, "call": 63.3166, "fold": 23.6181 },
+    "A5s": { "allin": 100,    "raise": 0,       "call": 0,      "fold": 0 },
+    "A4s": { "allin": 64,     "raise": 4.5,     "call": 31.5,   "fold": 0 },
+    "A3s": { "allin": 0,      "raise": 4.5,     "call": 16,     "fold": 79.5 },
+    "AKo": { "allin": 100,    "raise": 0,       "call": 0,      "fold": 0 },
+    "KK":  { "allin": 15.5,   "raise": 84.5,    "call": 0,      "fold": 0 },
+    "KQs": { "allin": 0,      "raise": 0,       "call": 100,    "fold": 0 },
+    "KJs": { "allin": 0,      "raise": 0,       "call": 100,    "fold": 0 },
+    "KTs": { "allin": 0,      "raise": 25.5,    "call": 74.5,   "fold": 0 },
+    "K9s": { "allin": 0,      "raise": 45.7171, "call": 6.9721, "fold": 47.3108 },
+    "K6s": { "allin": 0,      "raise": 0,       "call": 42.5,   "fold": 57.5 },
+    "QQ":  { "allin": 100,    "raise": 0,       "call": 0,      "fold": 0 },
+    "QJs": { "allin": 77.5,   "raise": 0,       "call": 22.5,   "fold": 0 },
+    "QTs": { "allin": 0,      "raise": 0,       "call": 92,     "fold": 8 },
+    "AJo": { "allin": 0,      "raise": 17,      "call": 0,      "fold": 83 },
+    "JJ":  { "allin": 97,     "raise": 3,       "call": 0,      "fold": 0 },
+    "JTs": { "allin": 0,      "raise": 0,       "call": 100,    "fold": 0 },
+    "TT":  { "allin": 97.5,   "raise": 2.5,     "call": 0,      "fold": 0 },
+    "T9s": { "allin": 0,      "raise": 0,       "call": 75.5,   "fold": 24.5 },
+    "99":  { "allin": 0,      "raise": 20,      "call": 80,     "fold": 0 },
+    "98s": { "allin": 0,      "raise": 0,       "call": 44.5,   "fold": 55.5 },
+    "88":  { "allin": 0,      "raise": 2,       "call": 98,     "fold": 0 },
+    "77":  { "allin": 0,      "raise": 11.5,    "call": 88.5,   "fold": 0 },
+    "66":  { "allin": 14.9254,"raise": 15.4229, "call": 69.6517,"fold": 0 },
+    "55":  { "allin": 0,      "raise": 3.5,     "call": 74.5,   "fold": 22 }
+  }
+};

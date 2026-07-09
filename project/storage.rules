@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow public read access to announcement images from 'muro' folder
+    // Allow write access only for the admin user.
+    match /muro/{allPaths=**} {
+      allow read: if true;
+      // Admin UID for jackskkclub@gmail.com is prH9ZN14hVZnF7WpaaENPCb8IG93
+      allow write: if request.auth != null && request.auth.uid == 'prH9ZN14hVZnF7WpaaENPCb8IG93';
+    }
+  }
+}

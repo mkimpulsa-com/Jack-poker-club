@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Imagen de portada de Jack's Poker Club",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-1813016982-678d4.firebasestorage.app/o/Portada%2FGenerated%20Image%20January%2010%2C%202026%20-%208_59PM.png?alt=media&token=b66d7175-5086-4bc3-9283-4e6dd3b3eb82",
+      "imageHint": "poker club"
+    },
+    {
+      "id": "club",
+      "description": "Logo del Club de Competición",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/jacks-poker-copia-001064-e9bc4.firebasestorage.app/o/ChatGPT%20Image%2025%20ene%202026%2C%2008_18_10%20p.m..png?alt=media&token=643b1952-d2ab-4135-a7b9-e9393cf62af6",
+      "imageHint": "poker logo"
+    },
+    {
+      "id": "community",
+      "description": "A group of people discussing and collaborating.",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/jacks-poker-copia-001064-e9bc4.firebasestorage.app/o/ChatGPT%20Image%2025%20ene%202026%2C%2008_23_07%20p.m..png?alt=media&token=f6e638d1-8ad6-486e-8a27-d51727344890",
+      "imageHint": "people discussion"
+    },
+    {
+      "id": "school",
+      "description": "A person deeply focused, illustrating strategic thinking.",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/jacks-poker-copia-001064-e9bc4.firebasestorage.app/o/ChatGPT%20Image%2025%20ene%202026%2C%2008_21_06%20p.m..png?alt=media&token=a37bb7eb-574e-4c9e-b264-e723198ebd8a",
+      "imageHint": "man thinking"
+    },
+    {
+      "id": "club-hero",
+      "description": "A phone showing a poker game application.",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-1813016982-678d4.firebasestorage.app/o/Seccion%20Club%2FKK_phone-features.png?alt=media&token=1a18c785-77c8-4662-9078-943d51be4f34",
+      "imageHint": "poker app"
+    }
+  ]
+}

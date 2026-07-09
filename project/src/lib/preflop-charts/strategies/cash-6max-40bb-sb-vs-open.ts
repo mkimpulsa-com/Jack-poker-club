@@ -1,0 +1,47 @@
+import type { PreflopStrategy } from '../types';
+
+export const cash6max40bbSbVsOpen: PreflopStrategy = {
+  id: 'cash-6max-40bb-sb-vs-open',
+  title: 'Cash 6-max 40bb SB vs Open',
+  meta: {
+    format: 'CASH',
+    players: 6,
+    stackBB: 40,
+    position: 'SB',
+    action: 'vs-open',
+    strategicNote: "Desde la Ciega Pequeña contra una apertura con 40bb, nuestra estrategia se aprieta. Hacemos 3-bet con un rango polarizado de valor y faroles, pero pagamos con manos que tienen buena jugabilidad postflop, ya que la BB todavía puede actuar. Foldeamos una gran parte de nuestro rango para evitar jugar fuera de posición en pozos grandes con un stack más corto.",
+  },
+  stats: {
+    raise: 6.9,
+    call: 2.6,
+    fold: 90.5,
+    allin: 0.0,
+  },
+  range: {
+    "AA":  { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "AKs": { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "AQs": { "allin": 0, "raise": 0,     "call": 100,  "fold": 0 },
+    "AJs": { "allin": 0, "raise": 34.5,  "call": 65.5, "fold": 0 },
+    "ATs": { "allin": 0, "raise": 41.5,  "call": 58.5, "fold": 0 },
+    "A9s": { "allin": 0, "raise": 29,    "call": 71,   "fold": 0 },
+    "A8s": { "allin": 0, "raise": 0,     "call": 70,   "fold": 30 },
+    "A7s": { "allin": 0, "raise": 0,     "call": 20,   "fold": 80 },
+    "A5s": { "allin": 0, "raise": 38,    "call": 52,   "fold": 10 },
+    "A4s": { "allin": 0, "raise": 0,     "call": 6.5,  "fold": 93.5 },
+    "AKo": { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "KK":  { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "KQs": { "allin": 0, "raise": 82,    "call": 18,   "fold": 0 },
+    "KJs": { "allin": 0, "raise": 98.5,  "call": 1.5,  "fold": 0 },
+    "KTs": { "allin": 0, "raise": 69.5,  "call": 30.5, "fold": 0 },
+    "K9s": { "allin": 0, "raise": 27.5,  "call": 26.5, "fold": 46 },
+    "AQo": { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "KQo": { "allin": 0, "raise": 27.64, "call": 37.69,"fold": 34.67 },
+    "QQ":  { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "QJs": { "allin": 0, "raise": 50,    "call": 50,   "fold": 0 },
+    "QTs": { "allin": 0, "raise": 42,    "call": 58,   "fold": 0 },
+    "AJo": { "allin": 0, "raise": 77.5,  "call": 22.5, "fold": 0 },
+    "KJo": { "allin": 0, "raise": 10,    "call": 8.5,  "fold": 81.5 },
+    "JJ":  { "allin": 0, "raise": 100,   "call": 0,    "fold": 0 },
+    "JTs": { "allin": 0, "raise": 73,    "call": 27,   "fold": 0 }
+  },
+};
