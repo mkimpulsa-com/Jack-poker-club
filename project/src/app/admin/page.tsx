@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useUser, useCollection, useDoc, useFirebase, useMemoFirebase } from '@/firebase';
+import { useUser, useFirebase, useMemoFirebase, useCollection, useDoc } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Shield, Trash2, Users } from 'lucide-react';
+import { Shield, Trash2, Settings, LayoutDashboard, Megaphone, Calendar } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { collection, query, orderBy, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, orderBy, doc, deleteDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import {
     Table,
     TableBody,
@@ -32,9 +32,12 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { setDoc, serverTimestamp } from 'firebase/firestore';
-import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+// Import our new components
+import { Dashboard } from './components/dashboard';
+import { EventsManagement } from './components/events-management';
+import { HomeFeaturesManagement } from './components/home-features-management';
 
 type Post = {
     id: string;
@@ -49,103 +52,7 @@ type Announcement = {
   content: string;
 };
 
-type UserProfile = {
-    id: string;
-    displayName: string;
-    email: string;
-    playerId?: string;
-    whatsappNumber?: string;
-    createdAt: { seconds: number; nanoseconds: number };
-    hasSchoolAccess?: boolean;
-};
-
 const ADMIN_EMAILS = ['jackskkclub@gmail.com', 'guillepasqui@gmail.com', 'robertemprende000@gmail.com'];
-
-function UserManagement() {
-    const { firestore } = useFirebase();
-    const { toast } = useToast();
-
-    const usersQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'users'), orderBy('createdAt', 'desc'));
-    }, [firestore]);
-
-    const { data: users, isLoading } = useCollection<UserProfile>(usersQuery);
-
-    const handleAccessChange = async (userId: string, currentAccess: boolean) => {
-        if (!firestore) return;
-        const userRef = doc(firestore, 'users', userId);
-        try {
-            await updateDoc(userRef, {
-                hasSchoolAccess: !currentAccess
-            });
-            toast({
-                title: "Permiso actualizado",
-                description: `El acceso a la escuela para el usuario ha sido ${!currentAccess ? 'concedido' : 'revocado'}.`,
-            });
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Error",
-                description: "No se pudo actualizar el permiso.",
-            });
-            console.error("Error updating user access:", error);
-        }
-    };
-
-    if (isLoading) {
-        return <p className="text-muted-foreground">Cargando usuarios...</p>;
-    }
-
-    if (!users || users.length === 0) {
-        return <p className="text-muted-foreground">No hay usuarios para mostrar.</p>;
-    }
-
-    return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>ID Jugador</TableHead>
-                    <TableHead>WhatsApp</TableHead>
-                    <TableHead>Fecha de Registro</TableHead>
-                    <TableHead>Acceso Escuela</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {users.map((user) => {
-                    const isAdmin = ADMIN_EMAILS.includes(user.email);
-                    return (
-                        <TableRow key={user.id} className={isAdmin ? 'bg-primary/10' : ''}>
-                            <TableCell className="font-medium">
-                                <div className="flex items-center gap-2">
-                                    <span>{user.displayName}</span>
-                                    {isAdmin && <Shield className="h-4 w-4 text-primary" title="Administrador" />}
-                                </div>
-                            </TableCell>
-                            <TableCell>{user.email}</TableCell>
-                            <TableCell>{user.playerId || 'N/A'}</TableCell>
-                            <TableCell>{user.whatsappNumber || 'N/A'}</TableCell>
-                            <TableCell>
-                                {user.createdAt ? 
-                                    format(new Date(user.createdAt.seconds * 1000), "d MMM, yyyy", { locale: es })
-                                    : 'N/A'
-                                }
-                            </TableCell>
-                            <TableCell>
-                                <Switch
-                                    checked={!!user.hasSchoolAccess}
-                                    onCheckedChange={() => handleAccessChange(user.id, !!user.hasSchoolAccess)}
-                                />
-                            </TableCell>
-                        </TableRow>
-                    );
-                })}
-            </TableBody>
-        </Table>
-    );
-}
 
 function PostManagement() {
     const { firestore } = useFirebase();
@@ -315,7 +222,7 @@ export default function AdminPage() {
     const { user, isUserLoading } = useUser();
     const router = useRouter();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!isUserLoading && (!user || !ADMIN_EMAILS.includes(user.email!))) {
             router.replace('/');
         }
@@ -337,38 +244,55 @@ export default function AdminPage() {
                     Panel de Administrador
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                    Bienvenido, {user.displayName}. Aquí puedes gestionar la aplicación.
+                    Bienvenido, {user.displayName}. Aquí puedes gestionar todos los aspectos del club.
                 </p>
             </div>
 
-            <div className="grid gap-8 max-w-5xl mx-auto">
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Gestionar Anuncio</CardTitle>
-                        <CardDescription>Publica un mensaje que aparecerá en la página de inicio.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <AnnouncementManagement />
-                    </CardContent>
-                 </Card>
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Gestión de Usuarios</CardTitle>
-                        <CardDescription>Ver y gestionar los usuarios registrados en la plataforma.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <UserManagement />
-                    </CardContent>
-                </Card>
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Publicaciones</CardTitle>
-                        <CardDescription>Moderar análisis de manos.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <PostManagement />
-                    </CardContent>
-                 </Card>
+            <div className="max-w-6xl mx-auto">
+                <Tabs defaultValue="dashboard" className="w-full">
+                    <TabsList className="grid w-full grid-cols-4 mb-8">
+                        <TabsTrigger value="dashboard" className="flex gap-2">
+                            <LayoutDashboard className="h-4 w-4" />
+                            Panel de Control
+                        </TabsTrigger>
+                        <TabsTrigger value="posts" className="flex gap-2">
+                            <Settings className="h-4 w-4" />
+                            Publicaciones
+                        </TabsTrigger>
+                        <TabsTrigger value="announcements" className="flex gap-2">
+                            <Megaphone className="h-4 w-4" />
+                            Anuncios
+                        </TabsTrigger>
+                        <TabsTrigger value="events" className="flex gap-2">
+                            <Calendar className="h-4 w-4" />
+                            Eventos
+                        </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="dashboard" className="mt-0">
+                        <Dashboard />
+                    </TabsContent>
+
+                    <TabsContent value="posts" className="mt-0">
+                        <HomeFeaturesManagement />
+                    </TabsContent>
+
+                    <TabsContent value="announcements" className="mt-0">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Gestionar Anuncio Principal</CardTitle>
+                                <CardDescription>Publica un mensaje importante que aparecerá destacado en la página de inicio para todos los usuarios.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <AnnouncementManagement />
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    <TabsContent value="events" className="mt-0">
+                        <EventsManagement />
+                    </TabsContent>
+                </Tabs>
             </div>
         </div>
     );

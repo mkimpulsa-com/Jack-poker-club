@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 
-const ADMIN_EMAILS = ['jackskkclub@gmail.com', 'guillepasqui@gmail.com'];
+const ADMIN_EMAILS = ['jackskkclub@gmail.com', 'guillepasqui@gmail.com', 'robertemprende000@gmail.com'];
 
 function UserButton() {
   const { user } = useUser();

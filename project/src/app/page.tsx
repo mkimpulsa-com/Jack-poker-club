@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Trophy, Users, BookOpenCheck, Megaphone } from 'lucide-react';
-import { useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useDoc, useMemoFirebase, useCollection, useFirebase } from '@/firebase';
+import { doc, collection, query, orderBy } from 'firebase/firestore';
 import { useFirestore } from '@/firebase/provider';
 
 const featureSections = [
@@ -78,7 +78,30 @@ function AnnouncementSection() {
     );
 }
 
+type HomeFeature = {
+  id: string;
+  title: string;
+  description: string;
+  linkText: string;
+  link: string;
+  imageUrl: string;
+  createdAt: { seconds: number; nanoseconds: number };
+};
+
 export default function Home() {
+  const { firestore } = useFirebase();
+
+  const featuresQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'homepage-features'), orderBy('createdAt', 'desc'));
+  }, [firestore]);
+
+  const { data: dynamicFeatures, isLoading } = useCollection<HomeFeature>(featuresQuery);
+
+  // Use dynamic features if available, otherwise fallback to the hardcoded defaults
+  const featuresToDisplay = dynamicFeatures && dynamicFeatures.length > 0 
+    ? dynamicFeatures 
+    : featureSections;
 
   return (
     <div>
@@ -87,44 +110,59 @@ export default function Home() {
 
       <section className="py-12 md:py-24 lg:py-32 bg-background">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {featureSections.map((feature) => {
-              const image = PlaceHolderImages.find((img) => img.id === feature.imageId);
-              return (
-                <Card key={feature.title} className="flex flex-col overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-                  {image && (
-                    <div className="aspect-video relative">
-                      <Image 
-                        src={image.imageUrl} 
-                        alt={image.description}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        data-ai-hint={image.imageHint}
-                        priority
-                      />
-                    </div>
-                  )}
-                  <CardHeader className="flex flex-row items-start gap-4">
-                    {feature.icon}
-                    <div className="grid gap-1">
-                      <CardTitle className="font-headline">{feature.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow">
-                     <CardDescription>{feature.description}</CardDescription>
-                  </CardContent>
-                  <CardFooter>
-                    <Button asChild variant="link" className="p-0 text-primary">
-                      <Link href={feature.link}>
-                        {feature.linkText}
-                      </Link>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              );
-            })}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-r-transparent"></div>
+            </div>
+          ) : (
+            <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {featuresToDisplay.map((feature: any) => {
+                // Determine if it's a dynamic feature (has imageUrl directly) or a hardcoded one (uses PlaceHolderImages)
+                const isDynamic = 'imageUrl' in feature && feature.imageUrl;
+                let displayImage = '';
+                
+                if (isDynamic) {
+                  displayImage = feature.imageUrl;
+                } else {
+                  const placeholder = PlaceHolderImages.find((img) => img.id === feature.imageId);
+                  displayImage = placeholder?.imageUrl || '';
+                }
+
+                return (
+                  <Card key={feature.title || feature.id} className="flex flex-col overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+                    {displayImage && (
+                      <div className="aspect-video relative bg-muted">
+                        <Image 
+                          src={displayImage} 
+                          alt={feature.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority
+                        />
+                      </div>
+                    )}
+                    <CardHeader className="flex flex-row items-start gap-4">
+                      {feature.icon && feature.icon}
+                      <div className="grid gap-1">
+                        <CardTitle className="font-headline">{feature.title}</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                       <CardDescription>{feature.description}</CardDescription>
+                    </CardContent>
+                    <CardFooter>
+                      <Button asChild variant="link" className="p-0 text-primary">
+                        <Link href={feature.link}>
+                          {feature.linkText}
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     </div>
