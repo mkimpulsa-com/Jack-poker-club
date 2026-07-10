@@ -4,6 +4,7 @@ import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 /**
  * Initializes the Firebase Client SDK.
@@ -11,7 +12,16 @@ import { getFirestore } from 'firebase/firestore';
  * Firebase Console to avoid "invalid-app-check-token" errors in this environment.
  */
 export function initializeFirebase() {
-  const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  const isNewApp = getApps().length === 0;
+  const app = isNewApp ? initializeApp(firebaseConfig) : getApp();
+
+  if (isNewApp && typeof window !== 'undefined') {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider('6LfC7EwtAAAAAF5eoM-Tv7Af543QJcS37IJa5CUy'),
+      isTokenAutoRefreshEnabled: true
+    });
+  }
+
   return getSdks(app);
 }
 

@@ -29,7 +29,7 @@ export function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image src="https://firebasestorage.googleapis.com/v0/b/studio-1813016982-678d4.firebasestorage.app/o/logo%2FWhatsApp%20Image%202026-01-09%20at%2016.49.50%20-%20Editado.png?alt=media&token=65f0d8b7-e444-47ea-bb84-0527b12e63dc" alt="Ace Academy Logo" width={100} height={40} />
+            <Image src="https://firebasestorage.googleapis.com/v0/b/club-jack-poker.firebasestorage.app/o/ChatGPT%20Image%2010%20jul%202026%2C%2010_55_53.png?alt=media&token=92fed759-c5aa-4b8f-b4b6-a001e867179e" alt="Ace Academy Logo" width={100} height={40} />
           </Link>
         </div>
 
@@ -70,7 +70,7 @@ export function Header() {
                 </VisuallyHidden>
               </SheetHeader>
               <div className="mr-6 flex items-center space-x-2 mt-4">
-                <Image src="https://firebasestorage.googleapis.com/v0/b/studio-1813016982-678d4.firebasestorage.app/o/logo%2FWhatsApp%20Image%202026-01-09%20at%2016.49.50%20-%20Editado.png?alt=media&token=65f0d8b7-e444-47ea-bb84-0527b12e63dc" alt="Ace Academy Logo" width={100} height={40} />
+                <Image src="https://firebasestorage.googleapis.com/v0/b/club-jack-poker.firebasestorage.app/o/ChatGPT%20Image%2010%20jul%202026%2C%2010_55_53.png?alt=media&token=92fed759-c5aa-4b8f-b4b6-a001e867179e" alt="Ace Academy Logo" width={100} height={40} />
               </div>
               <div className="flex flex-col space-y-3 mt-8">
                 {navItems.map((item) => (

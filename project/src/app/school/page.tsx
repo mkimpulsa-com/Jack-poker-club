@@ -2,8 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { BookOpenCheck, BrainCircuit, BarChart, TrendingUp } from 'lucide-react';
+import { BookOpenCheck, BrainCircuit, BarChart, TrendingUp, Gamepad2 } from 'lucide-react';
 import Link from 'next/link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useUser, useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 
@@ -147,7 +153,7 @@ export default function SchoolPage() {
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
-                        className="flex flex-col sm:flex-row justify-center items-center gap-6"
+                        className="flex flex-wrap justify-center items-center gap-6"
                     >
                         <Link href="/school/ai-coach">
                             <div
@@ -236,6 +242,57 @@ export default function SchoolPage() {
                                 </Button>
                             </div>
                         </Link>
+                        
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <div
+                                    className="inline-block group relative bg-gradient-to-b from-black/10 to-white/10 
+                                    dark:from-white/10 dark:to-black/10 p-px rounded-2xl backdrop-blur-lg 
+                                    overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                                >
+                                    <Button
+                                        variant="ghost"
+                                        className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
+                                        bg-white/95 hover:bg-white/100 dark:bg-black/95 dark:hover:bg-black/100 
+                                        text-black dark:text-white transition-all duration-300 
+                                        group-hover:-translate-y-0.5 border border-black/10 dark:border-white/10
+                                        hover:shadow-md dark:hover:shadow-neutral-800/50 flex items-center"
+                                    >
+                                        <Gamepad2 className="mr-3 h-6 w-6 opacity-80 group-hover:opacity-100 transition-opacity" />
+                                        <span className="opacity-90 group-hover:opacity-100 transition-opacity">
+                                            Visual Poker Trainer
+                                        </span>
+                                    </Button>
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent 
+                                align="center" 
+                                className="w-64 p-2 rounded-2xl border border-black/10 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-xl shadow-2xl"
+                            >
+                                <DropdownMenuItem asChild className="cursor-pointer rounded-xl mb-1 hover:bg-black/5 dark:hover:bg-white/10 focus:bg-black/5 dark:focus:bg-white/10 transition-all duration-200 p-0 border border-transparent hover:border-black/5 dark:hover:border-white/10">
+                                    <Link href="/school/visual-trainer/spin" className="flex items-center w-full px-4 py-3">
+                                        <div className="bg-black/5 dark:bg-white/10 rounded-full p-2 mr-3">
+                                            <Gamepad2 className="w-4 h-4 text-black dark:text-white opacity-80" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-black dark:text-white">Entrenador Spin</span>
+                                            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-medium mt-0.5">Mesa corta (3-Max)</span>
+                                        </div>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="cursor-pointer rounded-xl hover:bg-black/5 dark:hover:bg-white/10 focus:bg-black/5 dark:focus:bg-white/10 transition-all duration-200 p-0 border border-transparent hover:border-black/5 dark:hover:border-white/10">
+                                    <Link href="/school/visual-trainer/max-8" className="flex items-center w-full px-4 py-3">
+                                        <div className="bg-black/5 dark:bg-white/10 rounded-full p-2 mr-3">
+                                            <Gamepad2 className="w-4 h-4 text-black dark:text-white opacity-80" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-black dark:text-white">Entrenador Max 8</span>
+                                            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-medium mt-0.5">Mesa larga (8-Max)</span>
+                                        </div>
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </motion.div>
                 </motion.div>
             </div>
