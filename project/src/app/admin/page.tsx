@@ -223,12 +223,12 @@ export default function AdminPage() {
     const router = useRouter();
 
     useEffect(() => {
-        if (!isUserLoading && (!user || !ADMIN_EMAILS.includes(user.email!))) {
-            router.replace('/');
+        if (!isUserLoading && (!user || !ADMIN_EMAILS.includes(user.email?.toLowerCase() || ''))) {
+            router.push('/');
         }
     }, [user, isUserLoading, router]);
 
-    if (isUserLoading || !user || !ADMIN_EMAILS.includes(user.email!)) {
+    if (isUserLoading || !user || !ADMIN_EMAILS.includes(user.email?.toLowerCase() || '')) {
         return (
             <div className="flex h-screen items-center justify-center">
                 <p>Cargando...</p>

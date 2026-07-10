@@ -306,7 +306,7 @@ export function Dashboard() {
                   </TableRow>
                 ) : (
                   filteredUsers.map((user) => {
-                    const isAdmin = ADMIN_EMAILS.includes(user.email);
+                    const isAdmin = ADMIN_EMAILS.includes(user.email?.toLowerCase() || '');
                     return (
                       <TableRow key={user.id} className={isAdmin ? 'bg-primary/5' : ''}>
                         <TableCell className="font-medium">

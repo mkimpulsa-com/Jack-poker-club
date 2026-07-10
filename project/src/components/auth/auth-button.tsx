@@ -25,7 +25,7 @@ function UserButton() {
     return null;
   }
 
-  const isAdmin = ADMIN_EMAILS.includes(user.email || '');
+  const isAdmin = ADMIN_EMAILS.includes(user.email?.toLowerCase() || '');
 
   return (
     <DropdownMenu>
